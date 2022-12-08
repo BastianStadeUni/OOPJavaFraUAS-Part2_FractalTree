@@ -290,9 +290,9 @@ public class MyControlFrame extends JPanel implements ActionListener, ItemListen
         JFrame controlPanel = new JFrame("Control Panel Fractal Tree");
         controlPanel.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        JComponent radioRepeat = new MyControlFrame();
-        radioRepeat.setOpaque(true);
-        controlPanel.setContentPane(radioRepeat);
+        JComponent controlPanelGrid = new MyControlFrame();
+        controlPanelGrid.setOpaque(true);
+        controlPanel.setContentPane(controlPanelGrid);
 
         controlPanel.pack();
         controlPanel.setVisible(true);
