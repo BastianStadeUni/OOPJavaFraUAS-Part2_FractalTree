@@ -2,10 +2,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.*;
 
 
-public class MyControlFrame extends JPanel implements ActionListener {
+public class MyControlFrame extends JPanel implements ActionListener, ItemListener {
     private JPanel compsToGrid;
     private JRadioButton radioYes;
     private JRadioButton radioNo;
@@ -18,6 +20,8 @@ public class MyControlFrame extends JPanel implements ActionListener {
     private JTextField lengthText;
     private JTextField lengthFactorText;
     private JTextField angleText;
+    private JCheckBox slpafterCheck;
+    private JTextField shapeSleepText;
     private boolean repeating;
     private boolean line;
     private Color branchColor;
@@ -27,6 +31,8 @@ public class MyControlFrame extends JPanel implements ActionListener {
     private int length;
     private double lengthFactor;
     private float angle;
+    private boolean sleepAfterShape;
+    private int sleepAfterShapeMS;
 
     public MyControlFrame(){
         //Set Layout for the Control Frame, (x by 2 grid)
@@ -115,6 +121,20 @@ public class MyControlFrame extends JPanel implements ActionListener {
         angleText.addActionListener(this);
         compsToGrid.add(angleText);
 
+        //Checkbox to check if the Tree should sleep after every shape
+        slpafterCheck = new JCheckBox("Sleep after each shape");
+        slpafterCheck.addItemListener(this);
+        compsToGrid.add(slpafterCheck);
+        newLabel(""); //Filler for grid
+
+        //Textbox for ms to sleep after every shape if checkbox is checked
+        newLabel("Sleep Time (ms)");
+        shapeSleepText = new JTextField(5);
+        shapeSleepText.addActionListener(this);
+        compsToGrid.add(shapeSleepText);
+
+
+
         //bring the Grid onto the JFrame
         add(compsToGrid, BorderLayout.NORTH);
     }
@@ -192,6 +212,27 @@ public class MyControlFrame extends JPanel implements ActionListener {
                 System.out.println(this.angle);
             }catch (NumberFormatException ex){
                 System.out.println("Float required");
+            }
+        }
+        else if(e.getSource() == shapeSleepText){
+            try {
+                this.sleepAfterShapeMS = Integer.parseInt(shapeSleepText.getText());
+                System.out.println(this.sleepAfterShapeMS);
+            }catch (NumberFormatException ex){
+                System.out.println("Integer required");
+            }
+        }
+    }
+
+    public void itemStateChanged(ItemEvent e){
+        if(e.getSource() == slpafterCheck){
+            if(e.getStateChange() == ItemEvent.DESELECTED){
+                this.sleepAfterShape = false;
+                System.out.println("Set sleepAfterShape to: " + sleepAfterShape);
+            }
+            else{
+                this.sleepAfterShape = true;
+                System.out.println("Set sleepAfterShape to: " + sleepAfterShape);
             }
         }
     }
