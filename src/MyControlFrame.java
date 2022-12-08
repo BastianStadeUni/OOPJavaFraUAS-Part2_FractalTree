@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.util.*;
 
 
 public class MyControlFrame extends JPanel implements ActionListener, ItemListener {
@@ -20,11 +19,13 @@ public class MyControlFrame extends JPanel implements ActionListener, ItemListen
     private JTextField lengthText;
     private JTextField lengthFactorText;
     private JTextField angleText;
-    private JCheckBox slpafterCheck;
+    private JCheckBox slpaftershapeCheck;
     private JTextField shapeSleepText;
-    private boolean repeating;
-    private boolean line;
-    private Color branchColor;
+    private JCheckBox slpafterIterCheck;
+    private JTextField iterSleepText;
+    private boolean repeating = false;
+    private boolean line = true;
+    private Color branchColor = Color.black;
     private int iters;
     private int thickness;
     private double thickFactor;
@@ -33,6 +34,8 @@ public class MyControlFrame extends JPanel implements ActionListener, ItemListen
     private float angle;
     private boolean sleepAfterShape;
     private int sleepAfterShapeMS;
+    private boolean sleepAfterIter = true;
+    private int sleepAfterIterMS = 500;
 
     public MyControlFrame(){
         //Set Layout for the Control Frame, (x by 2 grid)
@@ -122,17 +125,32 @@ public class MyControlFrame extends JPanel implements ActionListener, ItemListen
         compsToGrid.add(angleText);
 
         //Checkbox to check if the Tree should sleep after every shape
-        slpafterCheck = new JCheckBox("Sleep after each shape");
-        slpafterCheck.addItemListener(this);
-        compsToGrid.add(slpafterCheck);
+        slpaftershapeCheck = new JCheckBox("Sleep after each shape");
+        slpaftershapeCheck.addItemListener(this);
+        compsToGrid.add(slpaftershapeCheck);
         newLabel(""); //Filler for grid
 
         //Textbox for ms to sleep after every shape if checkbox is checked
         newLabel("Sleep Time (ms)");
+        compsToGrid.getComponent(20).setEnabled(false);
         shapeSleepText = new JTextField(5);
         shapeSleepText.addActionListener(this);
+        shapeSleepText.setEnabled(false);
         compsToGrid.add(shapeSleepText);
 
+        //Checkbox if programm should sleep after each iteration or not
+        slpafterIterCheck = new JCheckBox("Sleep after each iteration");
+        slpafterIterCheck.setSelected(true);
+        slpafterIterCheck.addItemListener(this);
+        compsToGrid.add(slpafterIterCheck);
+        newLabel(""); //Filler for grid
+
+        //Textbox for how long the programm should sleep after every iteration if checkbox is checked
+        newLabel("Sleep Time (ms)");
+        iterSleepText = new JTextField(5);
+        iterSleepText.setText("500");
+        iterSleepText.addActionListener(this);
+        compsToGrid.add(iterSleepText);
 
 
         //bring the Grid onto the JFrame
@@ -222,17 +240,41 @@ public class MyControlFrame extends JPanel implements ActionListener, ItemListen
                 System.out.println("Integer required");
             }
         }
+        else if(e.getSource() == iterSleepText){
+            try {
+                this.sleepAfterIterMS = Integer.parseInt(iterSleepText.getText());
+                System.out.println(this.sleepAfterIterMS);
+            }catch (NumberFormatException ex){
+                System.out.println("Integer required");
+            }
+        }
     }
 
     public void itemStateChanged(ItemEvent e){
-        if(e.getSource() == slpafterCheck){
+        if(e.getSource() == slpaftershapeCheck){
             if(e.getStateChange() == ItemEvent.DESELECTED){
                 this.sleepAfterShape = false;
                 System.out.println("Set sleepAfterShape to: " + sleepAfterShape);
-            }
+                shapeSleepText.setEnabled(false);
+                compsToGrid.getComponent(20).setEnabled(false);            }
             else{
                 this.sleepAfterShape = true;
                 System.out.println("Set sleepAfterShape to: " + sleepAfterShape);
+                shapeSleepText.setEnabled(true);
+                compsToGrid.getComponent(20).setEnabled(true);
+            }
+        }
+        if(e.getSource() == slpafterIterCheck){
+            if(e.getStateChange() == ItemEvent.DESELECTED){
+                this.sleepAfterIter = false;
+                System.out.println("Set sleepAfterShape to: " + sleepAfterIter);
+                iterSleepText.setEnabled(false);
+                compsToGrid.getComponent(24).setEnabled(false);            }
+            else{
+                this.sleepAfterIter = true;
+                System.out.println("Set sleepAfterShape to: " + sleepAfterIter);
+                iterSleepText.setEnabled(true);
+                compsToGrid.getComponent(24).setEnabled(true);
             }
         }
     }
