@@ -26,14 +26,14 @@ public class MyControlFrame extends JPanel implements ActionListener, ItemListen
     private boolean repeating = false;
     private boolean line = true;
     private Color branchColor = Color.black;
-    private int iters;
-    private int thickness;
-    private double thickFactor;
-    private int length;
-    private double lengthFactor;
-    private float angle;
-    private boolean sleepAfterShape;
-    private int sleepAfterShapeMS;
+    private int iters = 10;
+    private int thickness = 50;
+    private double thickFactor = 0.6;
+    private int length = 100;
+    private double lengthFactor = 0.8;
+    private double angle = 60.0;
+    private boolean sleepAfterShape = false;
+    private int sleepAfterShapeMS = 20;
     private boolean sleepAfterIter = true;
     private int sleepAfterIterMS = 500;
 
@@ -91,36 +91,42 @@ public class MyControlFrame extends JPanel implements ActionListener, ItemListen
         //Textbox for iterations
         newLabel("Iterations");
         iterText = new JTextField(5);
+        iterText.setText("10");
         iterText.addActionListener(this);
         compsToGrid.add(iterText);
 
         //Textbox for Base Thickness (Only required for rectangels)
         newLabel("Thickness (base)");
         thickBaseText = new JTextField(5);
+        thickBaseText.setText("50");
         thickBaseText.addActionListener(this);
         compsToGrid.add(thickBaseText);
 
         //Textbox for Thickness factor
         newLabel("Thickness factor");
         thickfactorText = new JTextField(5);
+        thickfactorText.setText("0.6");
         thickfactorText.addActionListener(this);
         compsToGrid.add(thickfactorText);
 
         //Textbox for Length
         newLabel("Length (base)");
         lengthText = new JTextField(5);
+        lengthText.setText("100");
         lengthText.addActionListener(this);
         compsToGrid.add(lengthText);
 
         //Textbox for Length factor
         newLabel("Length factor");
         lengthFactorText = new JTextField(5);
+        lengthFactorText.setText("0.8");
         lengthFactorText.addActionListener(this);
         compsToGrid.add(lengthFactorText);
 
         //Textbox for angle
         newLabel("Split angle °");
         angleText = new JTextField(5);
+        angleText.setText("60.0");
         angleText.addActionListener(this);
         compsToGrid.add(angleText);
 
@@ -134,6 +140,7 @@ public class MyControlFrame extends JPanel implements ActionListener, ItemListen
         newLabel("Sleep Time (ms)");
         compsToGrid.getComponent(20).setEnabled(false);
         shapeSleepText = new JTextField(5);
+        shapeSleepText.setText("20");
         shapeSleepText.addActionListener(this);
         shapeSleepText.setEnabled(false);
         compsToGrid.add(shapeSleepText);
@@ -226,10 +233,10 @@ public class MyControlFrame extends JPanel implements ActionListener, ItemListen
         }
         else if(e.getSource() == angleText){
             try {
-                this.angle = Float.parseFloat(angleText.getText());
+                this.angle = Double.parseDouble(angleText.getText());
                 System.out.println(this.angle);
             }catch (NumberFormatException ex){
-                System.out.println("Float required");
+                System.out.println("Double required");
             }
         }
         else if(e.getSource() == shapeSleepText){
