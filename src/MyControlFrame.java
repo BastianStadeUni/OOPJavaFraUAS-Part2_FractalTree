@@ -6,7 +6,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
 
-public class MyControlFrame extends JPanel implements ActionListener, ItemListener {
+public class MyControlFrame extends JFrame implements ActionListener, ItemListener {
     private JPanel compsToGrid;
     private JRadioButton radioYes;
     private JRadioButton radioNo;
@@ -37,14 +37,14 @@ public class MyControlFrame extends JPanel implements ActionListener, ItemListen
     private boolean sleepAfterIter = true;
     private int sleepAfterIterMS = 500;
 
-    public MyControlFrame(){
+    public MyControlFrame(String s){
+        this.setName(s);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //Set Layout for the Control Frame, (x by 2 grid)
         GridLayout controlFrameLayout = new GridLayout(0, 2);
         compsToGrid = new JPanel();
         compsToGrid.setLayout(controlFrameLayout); //compsToGrid is a *list* of components that will be put into a x by 2 grid
         //Radio Button for Repeat:
-        //JLabel repeatLabel = new JLabel("Repeat");
-        //compsToGrid.add(repeatLabel);
         newLabel("Repeat");
 
         radioYes = new JRadioButton("Yes");
@@ -161,7 +161,12 @@ public class MyControlFrame extends JPanel implements ActionListener, ItemListen
 
 
         //bring the Grid onto the JFrame
-        add(compsToGrid, BorderLayout.NORTH);
+        //add(compsToGrid, BorderLayout.NORTH);
+        this.add(compsToGrid);
+        compsToGrid.setOpaque(true);
+        this.setContentPane(compsToGrid);
+        this.pack();
+        this.setVisible(true);
     }
 
     public void newLabel(String s){
@@ -289,7 +294,7 @@ public class MyControlFrame extends JPanel implements ActionListener, ItemListen
     public boolean getRepeat(){
         return this.repeating;
     }
-    public boolean getShape(){
+    public boolean getLine(){
         return this.line;
     }
     public Color getColor(){
@@ -314,21 +319,17 @@ public class MyControlFrame extends JPanel implements ActionListener, ItemListen
     public int getSleepAfterIterMS(){
         return this.sleepAfterIterMS;
     }
-    public int getIters(){ return this.iters; }
-    public int getThickness(){ return this.thickness; }
-    public double getThickFactor(){ return this.thickFactor; }
-    public int getLength(){ return this.length; }
-
-
-    public static void createAndShowGUI(){
-        JFrame controlPanel = new JFrame("Control Panel Fractal Tree");
-        controlPanel.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        JComponent controlPanelGrid = new MyControlFrame();
-        controlPanelGrid.setOpaque(true);
-        controlPanel.setContentPane(controlPanelGrid);
-
-        controlPanel.pack();
-        controlPanel.setVisible(true);
+    public int getIters(){
+        return this.iters;
     }
+    public int getThickness(){
+        return this.thickness;
+    }
+    public double getThickFactor(){
+        return this.thickFactor;
+    }
+    public int getLength(){
+        return this.length;
+    }
+
 }

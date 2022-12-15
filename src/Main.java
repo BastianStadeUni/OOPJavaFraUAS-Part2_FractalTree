@@ -5,8 +5,7 @@ import java.awt.*;
 public class Main {
     public static void main(String[] args) {
         //Create Controlframe
-        MyControlFrame controlFrame = new MyControlFrame();
-        controlFrame.createAndShowGUI();
+        MyControlFrame controlFrame = new MyControlFrame("Control Panel Fractal Tree");
         JFrame treeFrame = new JFrame("Fractal Tree");
         //Create Painting frame
         treeFrame.setSize(600, 600);
@@ -17,7 +16,7 @@ public class Main {
 
         //get all values        new variables are to check if changes happend
         boolean repeat = controlFrame.getRepeat(), newRepeat;
-        boolean line = controlFrame.getShape(), newLine;
+        boolean line = controlFrame.getLine(), newLine;
         Color color = controlFrame.getColor(), newColor;
         int iters = controlFrame.getIters(), newIters;
         int thickness = controlFrame.getThickness(), newThickness;
@@ -40,7 +39,7 @@ public class Main {
             }
             //get new values from controlpanel
             newRepeat = controlFrame.getRepeat();
-            newLine = controlFrame.getShape();
+            newLine = controlFrame.getLine();
             newColor = controlFrame.getColor();
             newIters = controlFrame.getIters();
             newThickness = controlFrame.getThickness();
