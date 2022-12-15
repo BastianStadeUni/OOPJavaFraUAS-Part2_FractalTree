@@ -286,6 +286,39 @@ public class MyControlFrame extends JPanel implements ActionListener, ItemListen
         }
     }
 
+    public boolean getRepeat(){
+        return this.repeating;
+    }
+    public boolean getShape(){
+        return this.line;
+    }
+    public Color getColor(){
+        return this.branchColor;
+    }
+    public double getLengthFactor(){
+        return this.lengthFactor;
+    }
+    public double getAngle(){
+        return this.angle;
+    }
+    public boolean getSleepAfterShape(){
+        return this.sleepAfterShape;
+    }
+    public int getSleepAfterShapeMS(){
+        return this.sleepAfterShapeMS;
+    }
+    public boolean getSleepAfterIter(){
+        return this.sleepAfterIter;
+    }
+    public int getSleepAfterIterMS(){
+        return this.sleepAfterIterMS;
+    }
+    public int getIters(){ return this.iters; }
+    public int getThickness(){ return this.thickness; }
+    public double getThickFactor(){ return this.thickFactor; }
+    public int getLength(){ return this.getLength(); }
+
+
     public static void createAndShowGUI(){
         JFrame controlPanel = new JFrame("Control Panel Fractal Tree");
         controlPanel.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
