@@ -295,6 +295,7 @@ public class MyControlFrame extends JPanel implements ActionListener, ItemListen
     public Color getColor(){
         return this.branchColor;
     }
+
     public double getLengthFactor(){
         return this.lengthFactor;
     }
@@ -316,7 +317,7 @@ public class MyControlFrame extends JPanel implements ActionListener, ItemListen
     public int getIters(){ return this.iters; }
     public int getThickness(){ return this.thickness; }
     public double getThickFactor(){ return this.thickFactor; }
-    public int getLength(){ return this.getLength(); }
+    public int getLength(){ return this.length; }
 
 
     public static void createAndShowGUI(){
