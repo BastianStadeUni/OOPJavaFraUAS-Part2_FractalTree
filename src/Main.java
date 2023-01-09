@@ -33,12 +33,13 @@ public class Main {
         while(true){
             if(change || repeat){
                 treeFrame.repaint();
-                paint(p, repeat, line, color, iters, thickness, thickFactor, length, lengthFactor, angle,
+                paint(p, line, color, iters, thickness, thickFactor, length, lengthFactor, angle,
                         sleepAfterShape, sleepAfterShapeMS, sleepAfterIter, sleepAfterIterMS);
                 change = false;
+                System.out.println("Drawn");
             }
             //get new values from controlpanel
-            newRepeat = controlFrame.getRepeat();
+            repeat = controlFrame.getRepeat();
             newLine = controlFrame.getLine();
             newColor = controlFrame.getColor();
             newIters = controlFrame.getIters();
@@ -52,11 +53,10 @@ public class Main {
             newSAI = controlFrame.getSleepAfterIter();
             newSAIMS = controlFrame.getSleepAfterIterMS();
             //compare old and new values if any have changed
-            if(repeat != newRepeat || line != newLine || color != newColor || iters != newIters ||
+            if(line != newLine || color != newColor || iters != newIters ||
             thickness != newThickness || thickFactor != newThickFactor || length != newLength ||
-            angle != newAngle || sleepAfterShape != newSAS || sleepAfterShapeMS != newSASMS ||
+            lengthFactor != newLengthFactor || angle != newAngle || sleepAfterShape != newSAS || sleepAfterShapeMS != newSASMS ||
             sleepAfterIter != newSAI || sleepAfterIterMS != newSAIMS){
-                repeat = newRepeat;
                 line = newLine;
                 color = newColor;
                 iters = newIters;
@@ -69,16 +69,75 @@ public class Main {
                 sleepAfterIter = newSAI;
                 sleepAfterIterMS = newSAIMS;
                 change = true;
+                System.out.println("Changed");
             }
         }
 
         
     }
 
-    public static void paint(JPanel panel, boolean repeat, boolean line, Color color, int iters,
+    public static void paint(JPanel panel, boolean line, Color color, int iters,
                       int thickness, double thickFactor, int length, double lengthFactor,
                       double angle, boolean sleepAfterShape, int sleepAfterShapeMS,
                       boolean sleepAfterIter, int sleepAfterIterMS){
+        Graphics2D g2d =(Graphics2D)panel.getGraphics();
+        //Mandatory pause to see the first line
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        int width = panel.getWidth();
+        int height = panel.getHeight();
+        int currIndex = 0;
+        int endX = width / 2, endY = height - length, halfAngle = (int)angle / 2;
+        //sP = startPoint | x of sP is always in the middle of the panel and y of sP is always at the bottom of the Panel
+        Point eP, sP = new Point(width / 2, height);
+        ArrayList<Point> currStartPoints = new ArrayList<Point>();
+        ArrayList<Point> nextStartPoints = new ArrayList<Point>();
+        ArrayList<Integer> currAngles = new ArrayList<Integer>();
+        ArrayList<Integer> nextAngles = new ArrayList<Integer>();
+        //first line
+        if(line){
+            g2d.drawLine(sP.getX(),sP.getY(), endX, endY);
+        }
+        else{
+            //TODO
+        }
+        if(sleepAfterIter){
+            try {
+                Thread.sleep(sleepAfterIterMS);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        currStartPoints.add(new Point(endX, endY));
+        currAngles.add(0);
+        for(int iterations = 1; iterations < iters; iterations++){
+            length *= lengthFactor;
+            System.out.println(currStartPoints.size());
+            if(line){
+                for(int i = 0; i == currStartPoints.size() - 1; i++){
+                    sP = currStartPoints.get(i);
+                    for(int j = 0; j < 2; j++){
+                        endX = (int)(sP.getX() + length * Math.sin(Math.PI * (currAngles.get(i) + halfAngle * Math.pow(-1, j)) / 180));
+                        endY = (int)(sP.getY() - length * Math.cos(Math.PI * (currAngles.get(i) + halfAngle * Math.pow(-1, j)) / 180));
+                        g2d.drawLine(sP.getX(), sP.getY(), endX, endY);
+                        nextStartPoints.add(new Point(endX, endY));
+                        nextAngles.add((int)(currAngles.get(i) + halfAngle * Math.pow(-1, j)));
+                    }
+                }
+
+            }
+            else{
+                //TODO
+            }
+
+            iters--;
+        }
+
 
     }
 }
