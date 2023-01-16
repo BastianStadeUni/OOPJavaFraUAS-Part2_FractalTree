@@ -99,7 +99,8 @@ public class Main {
         int height = panel.getHeight();
         int endX = width / 2, endY = height - length, delta = (int)angle / 2;
         //sP = startPoint | x of sP is always in the middle of the panel and y of sP is always at the bottom of the Panel
-        Point eP, sP = new Point(width / 2, height);
+        //polyC1-C4 are the 4 corners of the rectangle that is being used to draw the three out of rectangles
+        Point polyC1, polyC2, polyC3, polyC4, sP = new Point(width / 2, height);
         ArrayList<Point> currStartPoints = new ArrayList<Point>();
         ArrayList<Point> nextStartPoints = new ArrayList<Point>();
         ArrayList<Integer> currAngles = new ArrayList<Integer>();
@@ -123,42 +124,45 @@ public class Main {
         currAngles.add(0);
         for(int iterations = 1; iterations < iters; iterations++){
             length *= lengthFactor;
+            thickness *= thickFactor;
             System.out.println(currStartPoints.size());
-            if(line){
-                for(int i = 0; i <= currStartPoints.size() - 1; i++){
-                    sP = currStartPoints.get(i);
-                    for(int j = 0; j < 2; j++){
-                        endX = (int)(sP.getX() + length * Math.sin(Math.PI * (currAngles.get(i) + delta * Math.pow(-1, j)) / 180));
-                        endY = (int)(sP.getY() - length * Math.cos(Math.PI * (currAngles.get(i) + delta * Math.pow(-1, j)) / 180));
+            for(int i = 0; i <= currStartPoints.size() - 1; i++){
+                sP = currStartPoints.get(i);
+                for(int j = 0; j < 2; j++){
+                    if(line) {
+                        endX = (int) (sP.getX() + length * Math.sin(Math.PI * (currAngles.get(i) + delta * Math.pow(-1, j)) / 180));
+                        endY = (int) (sP.getY() - length * Math.cos(Math.PI * (currAngles.get(i) + delta * Math.pow(-1, j)) / 180));
                         g2d.drawLine(sP.getX(), sP.getY(), endX, endY);
                         nextStartPoints.add(new Point(endX, endY));
-                        nextAngles.add((int)(currAngles.get(i) + delta * Math.pow(-1, j)));
-                        if(sleepAfterShape){
-                            try {
-                                Thread.sleep(sleepAfterShapeMS);
-                            } catch (InterruptedException e) {
-                                // TODO Auto-generated catch block
-                                e.printStackTrace();
-                            }
+                        nextAngles.add((int) (currAngles.get(i) + delta * Math.pow(-1, j)));
+                    }
+                    else {
+                        //get X and Y of the endpoint from the line to determine the endpoints from the polygon
+                        endX = (int) (sP.getX() + length * Math.sin(Math.PI * (currAngles.get(i) + delta * Math.pow(-1, j)) / 180));
+                        endY = (int) (sP.getY() - length * Math.cos(Math.PI * (currAngles.get(i) + delta * Math.pow(-1, j)) / 180));
+                        //TODO
+                    }
+                    if(sleepAfterShape){
+                        try {
+                            Thread.sleep(sleepAfterShapeMS);
+                        } catch (InterruptedException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
                         }
                     }
                 }
-                currStartPoints = nextStartPoints;
-                currAngles = nextAngles;
-                nextStartPoints = new ArrayList<Point>();
-                nextAngles = new ArrayList<Integer>();
-                if(sleepAfterIter){
-                    try {
-                        Thread.sleep(sleepAfterIterMS);
-                    } catch (InterruptedException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-                }
-
             }
-            else{
-                //TODO
+            currStartPoints = nextStartPoints;
+            currAngles = nextAngles;
+            nextStartPoints = new ArrayList<Point>();
+            nextAngles = new ArrayList<Integer>();
+            if(sleepAfterIter){
+                try {
+                    Thread.sleep(sleepAfterIterMS);
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
             }
         }
 
