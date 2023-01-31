@@ -38,7 +38,7 @@ public class MyControlFrame extends JFrame implements ActionListener, ItemListen
     private int sleepAfterIterMS = 500;
 
     public MyControlFrame(String s){
-        this.setName(s);
+        this.setTitle(s);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //Set Layout for the Control Frame, (x by 2 grid)
         GridLayout controlFrameLayout = new GridLayout(0, 2);

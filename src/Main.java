@@ -5,7 +5,7 @@ import java.awt.*;
 public class Main {
     public static void main(String[] args) {
         //Create Controlframe
-        MyControlFrame controlFrame = new MyControlFrame("Control Panel Fractal Tree");
+        MyControlFrame controlFrame = new MyControlFrame("Control Panel");
         JFrame treeFrame = new JFrame("Fractal Tree");
         //Create Painting frame
         treeFrame.setSize(600, 600);
