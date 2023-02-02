@@ -14,8 +14,8 @@ public class Main {
         treeFrame.setVisible(true);
         treeFrame.setLocationRelativeTo(null); //Center painting frame
 
-        //get all values        new variables are to check if changes happend
-        boolean repeat = controlFrame.getRepeat(), newRepeat;
+        //get all variables
+        boolean repeat = controlFrame.getRepeat();
         boolean line = controlFrame.getLine(), newLine;
         Color color = controlFrame.getColor(), newColor;
         int iters = controlFrame.getIters(), newIters;
@@ -29,14 +29,13 @@ public class Main {
         boolean sleepAfterIter = controlFrame.getSleepAfterIter(), newSAI;
         int sleepAfterIterMS = controlFrame.getSleepAfterIterMS(), newSAIMS;
         //start drawing in endless loop
-        boolean change = true;
+        boolean isChanged = true;
         while(true){
-            if(change || repeat){
+            if(isChanged || repeat){
                 treeFrame.repaint();
                 paint(p, line, color, iters, thickness, thickFactor, length, lengthFactor, angle,
                         sleepAfterShape, sleepAfterShapeMS, sleepAfterIter, sleepAfterIterMS);
-                change = false;
-                System.out.println("Drawn");
+                isChanged = false;
             }
             //get new values from controlpanel
             repeat = controlFrame.getRepeat();
@@ -69,13 +68,11 @@ public class Main {
                 sleepAfterShapeMS = newSASMS;
                 sleepAfterIter = newSAI;
                 sleepAfterIterMS = newSAIMS;
-                change = true;
-                System.out.println("Changed");
+                isChanged = true;
             }
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }
@@ -92,12 +89,12 @@ public class Main {
         try {
             Thread.sleep(100);
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         int width = panel.getWidth();
         int height = panel.getHeight();
-        int delta = (int)angle / 2;
+        int delta = (int)angle / 2; //delta is half of he given angle,
+        //we add and subtract it from our current angle to get the new values for both branches
         //sP = startPoint | x of sP is always in the middle of the panel and y of sP is always at the bottom of the Panel
         //eP = endPoint | x is also always in the middle, the same as sP, y is above sP by the size of the length
         Point sP = new Point(width / 2, height), eP = new Point(width / 2, height - length);
@@ -137,13 +134,11 @@ public class Main {
             rectangle.ypoints[2] = (int)(eP.getY() - thickness / 2 * Math.cos(Math.toRadians(-90)));
 
             g2d.fillPolygon(rectangle);
-
         }
         if(sleepAfterIter){
             try {
                 Thread.sleep(sleepAfterIterMS);
             } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }
@@ -152,7 +147,6 @@ public class Main {
         for(int iterations = 0; iterations < iters; iterations++){
             length *= lengthFactor;
             thickness *= thickFactor;
-            System.out.println(currStartPoints.size());
             for(int i = 0; i <= currStartPoints.size() - 1; i++){
                 sP = currStartPoints.get(i);
                 for(int j = 0; j < 2; j++){
@@ -193,7 +187,6 @@ public class Main {
                         try {
                             Thread.sleep(sleepAfterShapeMS);
                         } catch (InterruptedException e) {
-                            // TODO Auto-generated catch block
                             e.printStackTrace();
                         }
                     }
@@ -207,7 +200,6 @@ public class Main {
                 try {
                     Thread.sleep(sleepAfterIterMS);
                 } catch (InterruptedException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             }

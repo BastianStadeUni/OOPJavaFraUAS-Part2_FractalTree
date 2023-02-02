@@ -177,29 +177,23 @@ public class MyControlFrame extends JFrame implements ActionListener, ItemListen
         //checks if button has been pressed to select a new color
         if(e.getSource() == radioYes){
             this.repeating = true;
-            System.out.println("Repeating: " + this.repeating);
         }
         else if(e.getSource() == radioNo){
             this.repeating = false;
-            System.out.println("Repeating: " + this.repeating);
         }
         else if(e.getSource() == radioLine){
             this.line = true;
-            System.out.println("Line: " + this.line);
         }
         else if(e.getSource() == radioRect){
             this.line = false;
-            System.out.println("Line: " + this.line);
         }
         else if(e.getSource() == colorButton){
             JColorChooser colorChooser = new JColorChooser();
             branchColor = JColorChooser.showDialog(null, "Color selection", Color.black);
-            System.out.println("Color: "+this.branchColor);
         }
         else if(e.getSource() == iterText){
             try {
                 this.iters = Integer.parseInt(iterText.getText());
-                System.out.println("Iterations: "+this.iters);
             }catch (NumberFormatException ex){
                 System.out.println("Integer required");
             }
@@ -207,7 +201,6 @@ public class MyControlFrame extends JFrame implements ActionListener, ItemListen
         else if(e.getSource() == thickBaseText){
             try {
                 this.thickness = Integer.parseInt(thickBaseText.getText());
-                System.out.println("Thickness: "+this.thickness);
             }catch (NumberFormatException ex){
                 System.out.println("Integer required");
             }
@@ -215,7 +208,6 @@ public class MyControlFrame extends JFrame implements ActionListener, ItemListen
         else if(e.getSource() == thickfactorText){
             try {
                 this.thickFactor = Double.parseDouble(thickfactorText.getText());
-                System.out.println("Thickness Factor: "+this.thickFactor);
             }catch (NumberFormatException ex){
                 System.out.println("Double required");
             }
@@ -223,7 +215,6 @@ public class MyControlFrame extends JFrame implements ActionListener, ItemListen
         else if(e.getSource() == lengthText){
             try {
                 this.length = Integer.parseInt(lengthText.getText());
-                System.out.println("Length: "+this.length);
             }catch (NumberFormatException ex){
                 System.out.println("Integer required");
             }
@@ -231,7 +222,6 @@ public class MyControlFrame extends JFrame implements ActionListener, ItemListen
         else if(e.getSource() == lengthFactorText){
             try {
                 this.lengthFactor = Double.parseDouble(lengthFactorText.getText());
-                System.out.println("Length Factor: "+this.lengthFactor);
             }catch (NumberFormatException ex){
                 System.out.println("Double required");
             }
@@ -239,7 +229,6 @@ public class MyControlFrame extends JFrame implements ActionListener, ItemListen
         else if(e.getSource() == angleText){
             try {
                 this.angle = Double.parseDouble(angleText.getText());
-                System.out.println("Angle: "+this.angle);
             }catch (NumberFormatException ex){
                 System.out.println("Double required");
             }
@@ -247,7 +236,6 @@ public class MyControlFrame extends JFrame implements ActionListener, ItemListen
         else if(e.getSource() == shapeSleepText){
             try {
                 this.sleepAfterShapeMS = Integer.parseInt(shapeSleepText.getText());
-                System.out.println(this.sleepAfterShapeMS);
             }catch (NumberFormatException ex){
                 System.out.println("Integer required");
             }
@@ -255,7 +243,6 @@ public class MyControlFrame extends JFrame implements ActionListener, ItemListen
         else if(e.getSource() == iterSleepText){
             try {
                 this.sleepAfterIterMS = Integer.parseInt(iterSleepText.getText());
-                System.out.println(this.sleepAfterIterMS);
             }catch (NumberFormatException ex){
                 System.out.println("Integer required");
             }
@@ -266,12 +253,10 @@ public class MyControlFrame extends JFrame implements ActionListener, ItemListen
         if(e.getSource() == slpaftershapeCheck){
             if(e.getStateChange() == ItemEvent.DESELECTED){
                 this.sleepAfterShape = false;
-                System.out.println("Set sleepAfterShape to: " + sleepAfterShape);
                 shapeSleepText.setEnabled(false);
                 compsToGrid.getComponent(20).setEnabled(false);            }
             else{
                 this.sleepAfterShape = true;
-                System.out.println("Set sleepAfterShape to: " + sleepAfterShape);
                 shapeSleepText.setEnabled(true);
                 compsToGrid.getComponent(20).setEnabled(true);
             }
@@ -279,12 +264,10 @@ public class MyControlFrame extends JFrame implements ActionListener, ItemListen
         if(e.getSource() == slpafterIterCheck){
             if(e.getStateChange() == ItemEvent.DESELECTED){
                 this.sleepAfterIter = false;
-                System.out.println("Set sleepAfterShape to: " + sleepAfterIter);
                 iterSleepText.setEnabled(false);
                 compsToGrid.getComponent(24).setEnabled(false);            }
             else{
                 this.sleepAfterIter = true;
-                System.out.println("Set sleepAfterShape to: " + sleepAfterIter);
                 iterSleepText.setEnabled(true);
                 compsToGrid.getComponent(24).setEnabled(true);
             }
