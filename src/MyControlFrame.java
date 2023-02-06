@@ -1,10 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-
+import java.awt.event.*;
 
 public class MyControlFrame extends JFrame implements ActionListener, ItemListener {
     private JPanel compsToGrid;
@@ -46,21 +42,21 @@ public class MyControlFrame extends JFrame implements ActionListener, ItemListen
         compsToGrid.setLayout(controlFrameLayout); //compsToGrid is a *list* of components that will be put into a x by 2 grid
         //Radio Button for Repeat:
         newLabel("Repeat");
-
+        //created buttons + their listeners
         radioYes = new JRadioButton("Yes");
         radioYes.addActionListener(this);
         radioNo = new JRadioButton("No");
         radioNo.addActionListener(this);
-
+        //group buttons together
         ButtonGroup repeatGroup = new ButtonGroup();
         repeatGroup.add(radioYes);
         repeatGroup.add(radioNo);
-
+        //create gridlayout to place them next to each other
         JPanel repeatPanel = new JPanel(new GridLayout(1, 0));
         repeatPanel.add(radioYes);
         repeatPanel.add(radioNo);
         radioNo.setSelected(true);
-
+        //add grid to panel
         compsToGrid.add(repeatPanel);
         //Radio Button for Shape
         newLabel("Shape");
@@ -82,18 +78,21 @@ public class MyControlFrame extends JFrame implements ActionListener, ItemListen
 
         //Button for Color changes
         newLabel("Color");
+        //create button + listener
         colorButton = new JButton("Choose color");
         colorButton.addActionListener(this);
+        //center position of button
         colorButton.setHorizontalTextPosition(AbstractButton.CENTER); //center text
         colorButton.setVerticalTextPosition(AbstractButton.CENTER);
+        //add to end grid
         compsToGrid.add(colorButton);
 
         //Textbox for iterations
         newLabel("Iterations");
-        iterText = new JTextField(5);
-        iterText.setText("10");
-        iterText.addActionListener(this);
-        compsToGrid.add(iterText);
+        iterText = new JTextField(5); //create textfield
+        iterText.setText("10"); //set default message inside textfield
+        iterText.addActionListener(this);//add listener
+        compsToGrid.add(iterText);//add to end grid
 
         //Textbox for Base Thickness (Only required for rectangels)
         newLabel("Thickness (base)");
@@ -131,9 +130,9 @@ public class MyControlFrame extends JFrame implements ActionListener, ItemListen
         compsToGrid.add(angleText);
 
         //Checkbox to check if the Tree should sleep after every shape
-        slpaftershapeCheck = new JCheckBox("Sleep after each shape");
-        slpaftershapeCheck.addItemListener(this);
-        compsToGrid.add(slpaftershapeCheck);
+        slpaftershapeCheck = new JCheckBox("Sleep after each shape"); //create checkbox
+        slpaftershapeCheck.addItemListener(this);//add listener
+        compsToGrid.add(slpaftershapeCheck);//add to end grid
         newLabel(""); //Filler for grid
 
         //Textbox for ms to sleep after every shape if checkbox is checked
@@ -174,7 +173,8 @@ public class MyControlFrame extends JFrame implements ActionListener, ItemListen
     }
 
     public void actionPerformed(ActionEvent e){
-        //checks if button has been pressed to select a new color
+        //This function triggers when a action listener has been triggered.
+        //It checks the source of the trigger and makes changes accordingly
         if(e.getSource() == radioYes){
             this.repeating = true;
         }
@@ -250,11 +250,15 @@ public class MyControlFrame extends JFrame implements ActionListener, ItemListen
     }
 
     public void itemStateChanged(ItemEvent e){
+        //This function triggers when a checkbox has been checked or unchecked.
+        //It checks for the source and its new status and makes changes accordingly
         if(e.getSource() == slpaftershapeCheck){
             if(e.getStateChange() == ItemEvent.DESELECTED){
                 this.sleepAfterShape = false;
                 shapeSleepText.setEnabled(false);
-                compsToGrid.getComponent(20).setEnabled(false);            }
+                //Get component from grid at 20th position
+                compsToGrid.getComponent(20).setEnabled(false);
+            }
             else{
                 this.sleepAfterShape = true;
                 shapeSleepText.setEnabled(true);
@@ -265,7 +269,9 @@ public class MyControlFrame extends JFrame implements ActionListener, ItemListen
             if(e.getStateChange() == ItemEvent.DESELECTED){
                 this.sleepAfterIter = false;
                 iterSleepText.setEnabled(false);
-                compsToGrid.getComponent(24).setEnabled(false);            }
+                //Get component from grid at the 24th position
+                compsToGrid.getComponent(24).setEnabled(false);
+            }
             else{
                 this.sleepAfterIter = true;
                 iterSleepText.setEnabled(true);
@@ -274,6 +280,7 @@ public class MyControlFrame extends JFrame implements ActionListener, ItemListen
         }
     }
 
+    //Simple getter methods, so the main function can retrieve these parameters
     public boolean getRepeat(){
         return this.repeating;
     }

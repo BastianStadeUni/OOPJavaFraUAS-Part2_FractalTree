@@ -1,4 +1,4 @@
-import java.util.*;
+import java.util.ArrayList;
 import javax.swing.*;
 import java.awt.*;
 
@@ -145,6 +145,7 @@ public class Main {
         currStartPoints.add(new Point(eP.getX(), eP.getY()));
         currAngles.add(0);
         for(int iterations = 0; iterations < iters; iterations++){
+            //modifying length and thickness for every new iteration
             length *= lengthFactor;
             thickness *= thickFactor;
             for(int i = 0; i <= currStartPoints.size() - 1; i++){
