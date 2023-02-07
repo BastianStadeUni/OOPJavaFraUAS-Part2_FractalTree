@@ -98,7 +98,7 @@ public class Main {
         //sP = startPoint | x of sP is always in the middle of the panel and y of sP is always at the bottom of the Panel
         //eP = endPoint | x is also always in the middle, the same as sP, y is above sP by the size of the length
         Point sP = new Point(width / 2, height), eP = new Point(width / 2, height - length);
-        Polygon rectangle = new Polygon();
+        Polygon poly = new Polygon();
         ArrayList<Point> currStartPoints = new ArrayList<Point>();
         ArrayList<Point> nextStartPoints = new ArrayList<Point>();
         ArrayList<Integer> currAngles = new ArrayList<Integer>();
@@ -107,33 +107,33 @@ public class Main {
         if(line){
             g2d.drawLine(sP.getX(),sP.getY(), eP.getX(), eP.getY());
         }
-        //or first rectangle
+        //or first poly
         else{
             g2d.setColor(color);
             //create polygon with 4 cornerns
-            rectangle.npoints = 4;
-            rectangle.xpoints = new int[4];
-            rectangle.ypoints = new int[4];
+            poly.npoints = 4;
+            poly.xpoints = new int[4];
+            poly.ypoints = new int[4];
 
             //getting the first corner of the polygon by turning a line from the start point by 90 degrees
             //in both direction with a length of half the thickness
             //bottomright corner
-            rectangle.xpoints[0] = (int)(sP.getX() + thickness / 2 * Math.sin(Math.toRadians(90)));
-            rectangle.ypoints[0] = (int)(sP.getY() - thickness / 2 * Math.cos(Math.toRadians(90)));
+            poly.xpoints[0] = (int)(sP.getX() + thickness / 2 * Math.sin(Math.toRadians(90)));
+            poly.ypoints[0] = (int)(sP.getY() - thickness / 2 * Math.cos(Math.toRadians(90)));
 
             //bottomleft corner, from startpoint with -90 degrees turned
-            rectangle.xpoints[1] = (int)(sP.getX() + thickness / 2 * Math.sin(Math.toRadians(-90)));
-            rectangle.ypoints[1] = (int)(sP.getY() - thickness / 2 * Math.cos(Math.toRadians(-90)));
-            //topright corner, from endpoint turned with 90 degrees
+            poly.xpoints[1] = (int)(sP.getX() + thickness / 2 * Math.sin(Math.toRadians(-90)));
+            poly.ypoints[1] = (int)(sP.getY() - thickness / 2 * Math.cos(Math.toRadians(-90)));
 
-            rectangle.xpoints[3] = (int)(eP.getX() + thickness / 2 * Math.sin(Math.toRadians(90)));
-            rectangle.ypoints[3] = (int)(eP.getY() - thickness / 2 * Math.cos(Math.toRadians(90)));
+            //topright corner, from endpoint turned with 90 degrees
+            poly.xpoints[3] = (int)(eP.getX() + thickness / 2 * Math.sin(Math.toRadians(90)));
+            poly.ypoints[3] = (int)(eP.getY() - thickness / 2 * Math.cos(Math.toRadians(90)));
 
             //topleft point, from endpoint turned with -90 degrees
-            rectangle.xpoints[2] = (int)(eP.getX() + thickness / 2 * Math.sin(Math.toRadians(-90)));
-            rectangle.ypoints[2] = (int)(eP.getY() - thickness / 2 * Math.cos(Math.toRadians(-90)));
+            poly.xpoints[2] = (int)(eP.getX() + thickness / 2 * Math.sin(Math.toRadians(-90)));
+            poly.ypoints[2] = (int)(eP.getY() - thickness / 2 * Math.cos(Math.toRadians(-90)));
 
-            g2d.fillPolygon(rectangle);
+            g2d.fillPolygon(poly);
         }
         if(sleepAfterIter){
             try {
@@ -155,30 +155,42 @@ public class Main {
                         //calculate the x coordinate of the end of the line by calculating
                         //starting point x + length * sin of the radiant of our new angle
                         //our new angle is the old angle once + and once - half of the given angle
-                        eP.setX((int) (sP.getX() + length * Math.sin(Math.toRadians(currAngles.get(i) + delta * Math.pow(-1, j)))));
-                        eP.setY((int) (sP.getY() - length * Math.cos(Math.toRadians(currAngles.get(i) + delta * Math.pow(-1, j)))));
+                        eP.setX((int) (sP.getX() + length *
+                                Math.sin(Math.toRadians(currAngles.get(i) + delta * Math.pow(-1, j)))));
+                        eP.setY((int) (sP.getY() - length *
+                                Math.cos(Math.toRadians(currAngles.get(i) + delta * Math.pow(-1, j)))));
                         g2d.drawLine(sP.getX(), sP.getY(), eP.getX(), eP.getY());
                     }
                     else {
                         //get X and Y of the endpoint from the line to determine the endpoints from the polygon
-                        eP.setX((int) (sP.getX() + length * Math.sin(Math.toRadians(currAngles.get(i) + delta * Math.pow(-1, j)))));
-                        eP.setY((int) (sP.getY() - length * Math.cos(Math.toRadians(currAngles.get(i) + delta * Math.pow(-1, j)))));
+                        eP.setX((int) (sP.getX() + length *
+                                Math.sin(Math.toRadians(currAngles.get(i) + delta * Math.pow(-1, j)))));
+                        eP.setY((int) (sP.getY() - length *
+                                Math.cos(Math.toRadians(currAngles.get(i) + delta * Math.pow(-1, j)))));
 
                         //bottomright corner (we increase thickness in the bottom corners
-                        //so the branch is a trapezoid and not a rectangle)
-                        rectangle.xpoints[0] = (int)(sP.getX() + thickness / (2 * thickFactor) * Math.sin(Math.toRadians(currAngles.get(i) + delta * Math.pow(-1, j) + 90)));
-                        rectangle.ypoints[0] = (int)(sP.getY() - thickness / (2 * thickFactor) * Math.cos(Math.toRadians(currAngles.get(i) + delta * Math.pow(-1, j) + 90)));
+                        //so the branch is a trapezoid and not a poly)
+                        poly.xpoints[0] = (int)(sP.getX() + thickness / (2 * thickFactor) *
+                                Math.sin(Math.toRadians(currAngles.get(i) + delta * Math.pow(-1, j) + 90)));
+                        poly.ypoints[0] = (int)(sP.getY() - thickness / (2 * thickFactor) *
+                                Math.cos(Math.toRadians(currAngles.get(i) + delta * Math.pow(-1, j) + 90)));
                         //bottomleft corner, from startpoint with -90 degrees turned
-                        rectangle.xpoints[1] = (int)(sP.getX() + thickness / (2 * thickFactor) * Math.sin(Math.toRadians(currAngles.get(i) + delta * Math.pow(-1, j) - 90)));
-                        rectangle.ypoints[1] = (int)(sP.getY() - thickness / (2 * thickFactor) * Math.cos(Math.toRadians(currAngles.get(i) + delta * Math.pow(-1, j) - 90)));
+                        poly.xpoints[1] = (int)(sP.getX() + thickness / (2 * thickFactor) *
+                                Math.sin(Math.toRadians(currAngles.get(i) + delta * Math.pow(-1, j) - 90)));
+                        poly.ypoints[1] = (int)(sP.getY() - thickness / (2 * thickFactor) *
+                                Math.cos(Math.toRadians(currAngles.get(i) + delta * Math.pow(-1, j) - 90)));
                         //topright corner, from endpoint turned with 90 degrees
-                        rectangle.xpoints[3] = (int)(eP.getX() + thickness / 2 * Math.sin(Math.toRadians(currAngles.get(i) + delta * Math.pow(-1, j) + 90)));
-                        rectangle.ypoints[3] = (int)(eP.getY() - thickness / 2 * Math.cos(Math.toRadians(currAngles.get(i) + delta * Math.pow(-1, j) + 90)));
+                        poly.xpoints[3] = (int)(eP.getX() + thickness / 2 *
+                                Math.sin(Math.toRadians(currAngles.get(i) + delta * Math.pow(-1, j) + 90)));
+                        poly.ypoints[3] = (int)(eP.getY() - thickness / 2 *
+                                Math.cos(Math.toRadians(currAngles.get(i) + delta * Math.pow(-1, j) + 90)));
                         //topleft point, from endpoint turned with -90 degrees
-                        rectangle.xpoints[2] = (int)(eP.getX() + thickness / 2 * Math.sin(Math.toRadians(currAngles.get(i) + delta * Math.pow(-1, j) - 90)));
-                        rectangle.ypoints[2] = (int)(eP.getY() - thickness / 2 * Math.cos(Math.toRadians(currAngles.get(i) + delta * Math.pow(-1, j) - 90)));
-                        g2d.fillPolygon(rectangle);
-                        g2d.draw(rectangle);
+                        poly.xpoints[2] = (int)(eP.getX() + thickness / 2 *
+                                Math.sin(Math.toRadians(currAngles.get(i) + delta * Math.pow(-1, j) - 90)));
+                        poly.ypoints[2] = (int)(eP.getY() - thickness / 2 *
+                                Math.cos(Math.toRadians(currAngles.get(i) + delta * Math.pow(-1, j) - 90)));
+                        g2d.fillPolygon(poly);
+                        g2d.draw(poly);
                     }
                     //adding new endpoints to the list for the next iteration
                     nextStartPoints.add(new Point(eP.getX(), eP.getY()));

@@ -47,16 +47,16 @@ public class MyControlFrame extends JFrame implements ActionListener, ItemListen
         radioYes.addActionListener(this);
         radioNo = new JRadioButton("No");
         radioNo.addActionListener(this);
-        //group buttons together
+
         ButtonGroup repeatGroup = new ButtonGroup();
         repeatGroup.add(radioYes);
         repeatGroup.add(radioNo);
-        //create gridlayout to place them next to each other
+
         JPanel repeatPanel = new JPanel(new GridLayout(1, 0));
         repeatPanel.add(radioYes);
         repeatPanel.add(radioNo);
         radioNo.setSelected(true);
-        //add grid to panel
+
         compsToGrid.add(repeatPanel);
         //Radio Button for Shape
         newLabel("Shape");
